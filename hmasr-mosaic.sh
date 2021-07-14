@@ -1,3 +1,5 @@
+#!/bin/bash
+
 ## uncomment these lines to re-export basins from GRDC database (250 Mb to download)
 
 # wget ftp://ftp.bafg.de/pub/REFERATE/GRDC/grdc_major_river_basins_shp.zip

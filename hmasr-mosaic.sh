@@ -75,11 +75,3 @@ do
 done
 # remove tmp files
 rm -f tmp*
-echo "end"
-date
-
-# export only annual total
-#gdalinfo $f | grep "STATISTICS_MEAN" | cut -d= -f2 | awk -v c="$vpc" -v a="$pixArea" '{ s+=$1 } END {print s * c * a/ 865012e6 }'
-
-#One liner to export zonal stats
-#fio cat ../HDR/grdc_major_river_basins_shp/mrb_basins.shp | fio filter "f.properties.RIVER_BASI == 'INDUS' " | rio zonalstats -r WY2000_SNOWMELT.tif --band 1 --prefix "SNOWMELT_" --all-touched | ogrinfo /vsistdin/ -geom=NO -al 

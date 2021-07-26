@@ -84,9 +84,6 @@ do
         # manage nodata (initially set to -999)
         otbcli_BandMath -il /tmp/"HMA_SR_D_v01_"${v}_${BV}"_avgmmyr_tmp.tif" -exp "im1b1 > -999 ? im1b1 : -999" -out ${pout}/"HMA_SR_D_v01_"${v}_${BV}"_avgmmyr.tif${opt}"
 
-#PERSO
-cp ${pout}/"HMA_SR_D_v01_"${v}_${BV}"_avgmmyr.tif" /home/gascoin/Nextcloud/HMA/figs/
-
     done
 
 done

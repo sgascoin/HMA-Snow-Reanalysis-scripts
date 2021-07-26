@@ -30,3 +30,5 @@ with rasterio.open('argmax.vrt') as src:
     a = np.median(ds, axis=0)                
     with rasterio.open(f"figs/HMA_SR_D_v01_{v}_{BV}_argmax_median.tif", 'w', **profile) as dst:
         dst.write(a.astype(rasterio.uint16), 1)
+
+!rm argmax.vrt

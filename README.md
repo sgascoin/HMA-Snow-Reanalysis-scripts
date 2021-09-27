@@ -1,4 +1,4 @@
-# Scripts to extract basin-scale information from the High Mountain Asia UCLA Daily Snow Reanalysis
+## Scripts to extract basin-scale information from the High Mountain Asia UCLA Daily Snow Reanalysis
 
 - [hmasr-mosaic.sh](hmasr-mosaic.sh): bash script to merge tiles, crop the data to river basins and compute stats. Results are exported as tables in the table folder. River basins are stored in the shp folder.
 - [hmasr-plot.ipynb](hmasr-plot.ipynb): Python 3 notebook to plot the output of hmasr-mosaic.sh

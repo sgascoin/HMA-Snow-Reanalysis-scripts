@@ -25,19 +25,19 @@ do
     # rearrange original netcdf files to be GDAL compatible (https://gis.stackexchange.com/a/377498)
     pout=${pin}"transposed/"
     mkdir -p ${pout}
-    #parallel ncpdq -a Latitude,Longitude {} ${pout}{/} ::: $(ls ${pin}/*.nc)
+    parallel ncpdq -a Latitude,Longitude {} ${pout}{/} ::: $(ls ${pin}/*.nc)
 
     # mosaicing all tiles of 1° latitude by 1° longitude into a single virtual raster
-    #parallel gdalbuildvrt $pout/HMA_SR_D_v01_WY{}_${v}.vrt $pout/*WY{}*nc ::: $(seq 2000 2016)
+    parallel gdalbuildvrt $pout/HMA_SR_D_v01_WY{}_${v}.vrt $pout/*WY{}*nc ::: $(seq 2000 2016)
 
     # compute statistics by basin 
     for BV in "INDUSMOD" "INDUS" "BRAHMAPUTRA" "GANGES" 
     do
         # regrid to equal area projection before aggregrating (nearest neighbor method to accelerate processing)
-        #parallel -j1 gdalwarp -multi -wo NUM_THREADS=ALL_CPUS -co COMPRESS=DEFLATE -s_srs EPSG:4326 --config GDALWARP_IGNORE_BAD_CUTLINE YES -r near -t_srs "'"${projEqArea}"'" -crop_to_cutline -cutline shp/$BV.shp $pout/HMA_SR_D_v01_WY{}_${v}.vrt $pout/HMA_SR_D_v01_WY{}_${v}_${BV}.tif ::: $(seq 2000 2016)
+        parallel -j1 gdalwarp -multi -wo NUM_THREADS=ALL_CPUS -co COMPRESS=DEFLATE -s_srs EPSG:4326 --config GDALWARP_IGNORE_BAD_CUTLINE YES -r near -t_srs "'"${projEqArea}"'" -crop_to_cutline -cutline shp/$BV.shp $pout/HMA_SR_D_v01_WY{}_${v}.vrt $pout/HMA_SR_D_v01_WY{}_${v}_${BV}.tif ::: $(seq 2000 2016)
 
         # compute stats from valid pixels (gdalinfo is faster than numpy, easier than dask/xarray)
-        #parallel gdalinfo -stats ::: $pout/HMA_SR_D_v01*${v}_${BV}.tif
+        parallel gdalinfo -stats ::: $pout/HMA_SR_D_v01*${v}_${BV}.tif
 
         # count valid pixels (vpc) in the basin using (here we need python)
         f=$(ls $pout/HMA_SR_D_v01_WY*_${v}_${BV}.tif | head -n1)
